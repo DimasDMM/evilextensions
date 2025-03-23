@@ -1,6 +1,6 @@
 {
-  "name": "My extension",
-  "description": "Just another extension",
+  "name": "My Email-BG extension",
+  "description": "An extension that doesn't do anything suspicious",
   "version": "1.0",
   "manifest_version": 3,
   "action": {
