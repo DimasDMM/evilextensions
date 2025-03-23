@@ -45,7 +45,7 @@ function extractUserNameAndEmail(link: HTMLElement) {
 
   if (ariaLabel) {
     // Regex pattern to extract the name and email
-    const regex = /(Cuenta de Google:|Google Account:)\s*([^\(]+)\s*\(([^)]+)\)/;
+    const regex = /(?:Cuenta de Google:|Google Account:)\s*([^\(]+)\s*\(([^)]+)\)/;
     const match = ariaLabel.match(regex);
 
     if (match) {
