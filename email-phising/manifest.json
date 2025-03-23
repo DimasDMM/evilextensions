@@ -1,0 +1,22 @@
+{
+  "name": "My Phising extension",
+  "description": "Just another extension",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": "images/icon.png"
+  },
+  "content_scripts": [
+    {
+      "js": [
+        "dist/types.js",
+        "dist/content.gmail.js",
+        "dist/content.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}
