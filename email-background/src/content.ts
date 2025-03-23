@@ -11,11 +11,19 @@ const currentUrl = window.location.href;
 
 function waitUntilReady(elementQuery: string): Promise<void> {
   console.log('wait until ready: ', elementQuery)
+
+  let element = document.querySelector(elementQuery)
+  if (element) {
+    console.log('already in DOM: ', elementQuery)
+    return new Promise((resolve) => { resolve() });
+  }
+
   return new Promise((resolve) => {
     const observer = new MutationObserver((mutationsList) => {
       if (mutationsList.length > 0) {
         const element = document.querySelector(elementQuery);
         if (element) {
+          console.log('found in DOM: ', elementQuery)
           observer.disconnect(); // Stop observing once the element is found
           resolve(); // Resolve the promise once the element is found
         }

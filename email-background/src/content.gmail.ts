@@ -120,7 +120,7 @@ async function doSendEmail() {
   await sleep(500)
 
   console.log("click submitButton");
-  let submitBtnSelector = 'div[aria-label*="Enviar"][aria-label*="Ctrl-Enter"], div[aria-label*="Send"]'
+  let submitBtnSelector = 'div[aria-label*="Enviar"][aria-label*="Ctrl-Enter"], div[data-tooltip="Send"][aria-label="Send"]'
   await waitUntilReady(submitBtnSelector)
   let submitButton = document.querySelector(submitBtnSelector);
   await simulateClick(submitButton);
@@ -193,23 +193,31 @@ function findSendingBadgeDiv(): HTMLElement | null {
   let maxDepth = -1;
 
   document.querySelectorAll("div").forEach(div => {
-    if (div.textContent?.includes("Enviando")
-        || div.textContent?.includes("Enviado")
-        || div.textContent?.includes("Sending")
-        || div.textContent?.includes("Message sent")) {
-      let depth = 0;
-      let parent = div.parentElement;
+    if (div.textContent) {
+      if (div.textContent.includes("Enviado")
+          || div.textContent.includes("Message sent")) {
+        console.log("findSendingBadgeDiv: ", div.textContent)
+        let depth = 0;
+        let parent = div.parentElement;
 
-      // Calculate depth by counting ancestors
-      while (parent) {
-        depth++;
-        parent = parent.parentElement;
-      }
+        // Check that I've picked the correct div
+        const undoSpan = div.querySelector('#link_undo');
+        const viewMessageSpan = div.querySelector('#link_vsm');
+        if (!undoSpan || !viewMessageSpan) {
+          return
+        }
 
-      // Keep the deepest div
-      if (depth > maxDepth) {
-        maxDepth = depth;
-        deepestDiv = div;
+        // Calculate depth by counting ancestors
+        while (parent) {
+          depth++;
+          parent = parent.parentElement;
+        }
+
+        // Keep the deepest div
+        if (depth > maxDepth) {
+          maxDepth = depth;
+          deepestDiv = div;
+        }
       }
     }
   });
